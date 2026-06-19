@@ -1,0 +1,27 @@
+{
+  "compilerOptions": {
+    "target": "ES2022",
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext",
+    "lib": ["ES2022", "DOM"],
+    "strict": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "resolveJsonModule": true,
+    "outDir": "./dist",
+    "rootDir": "./",
+    "baseUrl": "./",
+    "paths": {
+      "@pages/*": ["src/pages/*"],
+      "@utils/*": ["src/utils/*"],
+      "@config/*": ["config/*"],
+      "@locators/*": ["locators/*"],
+      "@managers/*": ["src/managers/*"],
+      "@fixtures/*": ["src/fixtures/*"],
+      "@base/*": ["src/base/*"]
+    }
+  },
+  "include": ["src/**/*", "config/**/*.ts", "playwright.config.ts", "scripts/**/*.ts"],
+  "exclude": ["node_modules", "dist"]
+}

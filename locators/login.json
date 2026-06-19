@@ -1,0 +1,7 @@
+{
+  "usernameInput": "input[name='username'], #username, #Username",
+  "passwordInput": "input[name='password'], #password, #Password",
+  "loginButton": "input[type='submit'], button[type='submit'], #loginBtn, input[value='Log in'], input[value='Log In']",
+  "errorMessage": ".alert-danger, .error-message, #login-error-msg",
+  "logoutLink": "a:has-text('Logout'), a:has-text('Sign Out'), #logoutBtn"
+}

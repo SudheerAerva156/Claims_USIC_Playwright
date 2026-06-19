@@ -1,0 +1,7 @@
+{
+  "welcomeMessage": ".welcome-msg, #welcome-text, h1:has-text('Welcome')",
+  "claimsMenu": "a:has-text('Claims'), #menu-claims, nav >> text=Claims",
+  "userProfileButton": "#user-profile-menu, .profile-dropdown",
+  "roleIndicator": ".role-badge, #active-role-display",
+  "dashboardTitle": "h1:has-text('Dashboard'), #dashboard-title"
+}

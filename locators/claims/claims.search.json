@@ -1,0 +1,6 @@
+{
+  "claimSearchInput": "input[placeholder*='Search claims'], #claimSearchInput, input[name='claimNumber']",
+  "claimSearchButton": "button:has-text('Search'), #searchClaimBtn",
+  "claimRow": "tr.claim-row, .claims-list >> tbody >> tr",
+  "claimStatusSelect": "select#cmbClaimStatus-sh + .select2-container"
+}

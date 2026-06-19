@@ -1,0 +1,8 @@
+{
+  "logo": "img[src*='logo'], .navbar-brand, .logo-img",
+  "loginContainer": "#login-panel, .login-box, .login-container",
+  "usernameInput": "#userId, input[name='username'], input[type='text']",
+  "passwordInput": "#password, input[name='password'], input[type='password']",
+  "loginButton": "#loginBtn, button:has-text('Login'), .btn-login, input[type='submit']",
+  "copyrightLabel": ".footer-copyright, footer >> text=Copyright, #copyright-display"
+}

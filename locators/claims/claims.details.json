@@ -1,0 +1,10 @@
+{
+  "claimDetailsContainer": ".claim-details, #claim-details-panel",
+  "claimNumberLabel": ".claim-number-value, #lblClaimNumber",
+  "claimStatusLabel": ".claim-status-badge, #lblClaimStatus",
+  "createNewClaimBtn": "button:has-text('New Claim'), #btnNewClaim",
+  "claimantNameInput": "input[name='claimantName'], #txtClaimantName",
+  "claimAmountInput": "input[name='claimAmount'], #txtClaimAmount",
+  "claimTypeSelect": "select[name='claimType'], #ddlClaimType",
+  "submitClaimBtn": "button:has-text('Submit'), #btnSubmitClaim"
+}

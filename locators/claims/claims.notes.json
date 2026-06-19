@@ -1,0 +1,5 @@
+{
+  "notesBtn": "button:has-text('Notes'), #btnNotes",
+  "noteInput": "textarea[name='noteText']",
+  "addNoteBtn": "button:has-text('Add Note')"
+}

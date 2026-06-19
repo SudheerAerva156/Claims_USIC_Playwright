@@ -1,0 +1,4 @@
+{
+  "toastMessage": ".toast-message, .alert-success",
+  "closeToastBtn": ".toast-close-button"
+}

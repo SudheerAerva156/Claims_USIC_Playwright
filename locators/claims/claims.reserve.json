@@ -1,0 +1,5 @@
+{
+  "reserveBtn": "button:has-text('Reserve'), #btnReserve",
+  "amountInput": "input[name='reserveAmount']",
+  "submitReserveBtn": "button:has-text('Submit Reserve')"
+}

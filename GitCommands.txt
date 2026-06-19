@@ -1,0 +1,30 @@
+|---------------------------------------------------------------------|
+| Use these commands. Your GitHub repo exists and is currently empty. |
+|---------------------------------------------------------------------|
+# go to your project folder
+cd /path/to/playwright-claims-framework
+
+# initialize git if not already done
+git init
+
+# set main branch
+git branch -M main
+
+# add all files
+git add .
+
+# first commit
+git commit -m "Initial commit: Playwright Claims USIC framework"
+
+# connect your GitHub repo
+git remote add origin https://github.com/SudheerAerva156/Claims_USIC_Playwright.git
+
+# push to GitHub
+git push -u origin main
+
+|-----------------------------------------------------------------------|
+| If origin already exists, use:                                        |
+|-----------------------------------------------------------------------|
+
+git remote set-url origin https://github.com/SudheerAerva156/Claims_USIC_Playwright.git
+git push -u origin main

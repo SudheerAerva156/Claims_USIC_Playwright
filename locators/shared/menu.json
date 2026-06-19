@@ -1,0 +1,8 @@
+{
+  "homeLink": "a:has-text('Home')",
+  "claimsLink": "a:has-text('Claim Search'), a:has-text('Claims')",
+  "vendorLink": "a:has-text('Vendor')",
+  "vendorManagementLink": "a:has-text('Vendor Management')",
+  "specialFunctionsLink": "a:has-text('Special Functions')",
+  "outOfOfficeLink": "a:has-text('Out Of Office')"
+}

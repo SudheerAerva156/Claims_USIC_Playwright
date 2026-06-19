@@ -1,0 +1,5 @@
+{
+  "paymentBtn": "button:has-text('Payment'), #btnPayment",
+  "amountInput": "input[name='paymentAmount']",
+  "submitPaymentBtn": "button:has-text('Submit Payment')"
+}
