@@ -1,0 +1,101 @@
+======================================================================
+MAJESCO CLAIMS E2E PLAYWRIGHT FRAMEWORK - QUICK START RUN INSTRUCTIONS
+======================================================================
+
+This guide outlines commands for executing and recording tests within the framework.
+
+----------------------------------------------------------------------
+1. VS CODE IMPORT & INITIALIZATION SETUP
+----------------------------------------------------------------------
+Follow these initialization steps once you import this folder into VS Code:
+
+# Step A: Install VS Code Recommended Extensions
+  - Navigate to Extensions in VS Code (Ctrl+Shift+X)
+  - Search and install: "Playwright Test" (by Microsoft)
+
+# Step B: Install dependencies
+npm ci
+
+# Step C: Install browser binaries
+npx playwright install
+
+# Step D: Setup local credentials
+  - To override default login credentials safely without checking them in,
+    copy the default environment file into a local override file:
+  - CLI command: copy .env .env.local
+
+# Step E: Verify TS compilation check
+npx tsc --noEmit
+
+----------------------------------------------------------------------
+2. CRITICAL RUN FLAGS & PROTOCOLS
+----------------------------------------------------------------------
+* NPM DOUBLE-DASH (--) SEPARATOR:
+  To pass flags directly to Playwright via npm run commands, you must use '--'.
+  - INCORRECT: npm run test:smoke --headed
+  - CORRECT:   npm run test:smoke -- --headed
+
+* SSL / HTTPS IGNORE OPTION:
+  To bypass security certificate warnings, append '--ignore-https-errors'.
+  - Example: npm run test:smoke -- --headed --ignore-https-errors
+
+* DYNAMIC TARGET ENVIRONMENT OVERRIDES:
+  To change target URL/timeouts, prefix executions with 'npx cross-env ENV=<NAME>'.
+  - Options: DEV, DEVAT, QA, QA2, CLOUDQA, UAT
+  - Example: npx cross-env ENV=CLOUDQA npm run test:smoke -- --headed --ignore-https-errors
+
+----------------------------------------------------------------------
+3. EXECUTION COMMAND SHEET
+----------------------------------------------------------------------
+Always execute scripts using your target environment. (Defaulting to ENV=QA below):
+
+A. SMOKE TESTS
+   npx cross-env ENV=QA npm run test:smoke -- --headed --ignore-https-errors
+
+B. UPGRADE CAPABILITY TESTS
+   npx cross-env ENV=QA npm run test:upgrade:base-capability -- --headed --ignore-https-errors
+
+C. UPGRADE DEFECT TESTS
+   npx cross-env ENV=QA npm run test:upgrade:base-defects -- --headed --ignore-https-errors
+
+D. REGRESSION SUITE (Orchestrated via tests/regression/regression-list.json)
+   npx cross-env ENV=QA npm run test:regression -- --headed --ignore-https-errors
+
+E. REGRESSION CASE SUB-CATEGORIES:
+   * Recent Tickets:
+     npx cross-env ENV=QA npm run test:regression:recent-tickets -- --headed --ignore-https-errors
+   * Change Requests:
+     npx cross-env ENV=QA npm run test:regression:cr -- --headed --ignore-https-errors
+   * Incidents:
+     npx cross-env ENV=QA npm run test:regression:incidents -- --headed --ignore-https-errors
+   * High-Priority Defects:
+     npx cross-env ENV=QA npm run test:regression:high-priority-defects -- --headed --ignore-https-errors
+   * Reused Upgrade Workflows:
+     npx cross-env ENV=QA npm run test:regression:reused-upgrade -- --headed --ignore-https-errors
+
+----------------------------------------------------------------------
+4. PLAYWRIGHT CODEGEN (RECORDING WORKFLOWS)
+----------------------------------------------------------------------
+To record user interactions and output locators automatically, run codegen with the
+ignore SSL verification flag:
+
+* Record QA environment portal:
+  npx playwright codegen https://us-qcsup.majesco.io/Claim/ --ignore-https-errors
+
+* Record CLOUDQA / DSINTSUP upgrade environment portal:
+  npx playwright codegen https://us-dsintsup.majesco.io/Claim/ --ignore-https-errors
+
+* Record generic browser session:
+  npx playwright codegen --ignore-https-errors
+
+----------------------------------------------------------------------
+5. CLEANUP & PERFORMANCE REPORTING
+----------------------------------------------------------------------
+* Reset workspace build / trace results:
+  npm run clean
+
+* Compile executive metrics dashboards:
+  npm run report:dashboard
+
+* Build and view interactive allure execution records:
+  npm run allure:generate && npm run allure:open
