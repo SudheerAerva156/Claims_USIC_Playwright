@@ -1,0 +1,60 @@
+name: Playwright Tests
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: 'Target Application Environment'
+        required: true
+        default: 'QA'
+        type: choice
+        options:
+          - QA
+          - DEV
+          - DEVAT
+          - QA2
+          - CLOUDQA
+          - UAT
+      grep_tag:
+        description: 'Select Test Tag to Filter'
+        required: true
+        default: '@smoke'
+        type: string
+
+jobs:
+  test:
+    timeout-minutes: 60
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    - uses: actions/setup-node@v4
+      with:
+        node-version: 20
+        cache: 'npm'
+        
+    - name: Install dependencies
+      run: npm ci
+      
+    - name: Install Playwright Browsers
+      run: npx playwright install --with-deps
+      
+    - name: Run Playwright tests
+      run: npx cross-env ENV=${{ inputs.environment || 'QA' }} npx playwright test --grep "${{ inputs.grep_tag || '@smoke' }}"
+      
+    - name: Generate operational dashboard
+      run: npm run report:dashboard
+      if: always()
+      
+    - name: Upload Test Artifacts
+      uses: actions/upload-artifact@v4
+      if: always()
+      with:
+        name: execution-evidence
+        path: |
+          reports/
+          allure-results/
+          logs/
+        retention-days: 30

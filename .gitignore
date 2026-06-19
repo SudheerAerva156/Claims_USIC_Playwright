@@ -1,0 +1,14 @@
+node_modules/
+dist/
+test-results/
+playwright-report/
+allure-results/
+reports/allure-report/
+reports/html-report/
+reports/metadata-temp/
+reports/artifacts/
+logs/
+
+# Local credentials
+.env.local
+.env.*.local
