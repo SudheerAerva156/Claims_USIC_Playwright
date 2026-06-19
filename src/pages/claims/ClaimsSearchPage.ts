@@ -16,7 +16,7 @@ export class ClaimsSearchPage extends BasePage {
    */
   public async selectClaimStatus(status: string): Promise<void> {
     Logger.info(`Selecting claim status: '${status}'`);
-    await this.page.locator(this.getLocator('claims.search.claimStatusSelect').toString()).click();
+    await this.click('claims.search.claimStatusSelect');
     await this.page.getByRole('treeitem', { name: status, exact: true }).click();
   }
 
