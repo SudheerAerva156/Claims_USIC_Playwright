@@ -1,0 +1,4 @@
+[
+  "../smoke/login-and-basic-claim-flow.smoke.spec.ts",
+  "../regression-cases/recent-tickets/recent-tickets.regression.spec.ts"
+]

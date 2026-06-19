@@ -172,12 +172,15 @@ Claims_USIC_Playwright/ (Project Root)
 │   │       ├── defect-claim-search.spec.ts
 │   │       ├── defect-fnol-details.spec.ts
 │   │       └── defect-loss-payment.spec.ts
-│   └── regression/                # Broad coverage suites
-│       ├── recent-tickets/        # Regression checks for recent user tickets
-│       ├── change-requests/       # Verifies dynamic custom CR implementations
-│       ├── incidents/             # Outages or service incident regression specs
-│       ├── high-priority-defects/ # P1 defect regression scripts
-│       └── reused-upgrade/        # Reused upgrade workflows migrated to regression tests
+    ├── regression/                # Regression Execution Orchestrator Folder
+    │   ├── regression-list.json   # Dynamic test list containing spec files to execute
+    │   └── regression-runner.ts   # Dynamic runner script that resolves and executes selected tests
+    └── regression-cases/          # Regression Test Scenarios Source Pool
+        ├── recent-tickets/        # Regression checks for recent user tickets
+        ├── change-requests/       # Verifies dynamic custom CR implementations
+        ├── incidents/             # Outages or service incident regression specs
+        ├── high-priority-defects/ # P1 defect regression scripts
+        └── reused-upgrade/        # Reused upgrade workflows migrated to regression tests
 ├── user-guide/                    # Framework User Guides and Operational Documents
 │   ├── README.md                  # Framework overview and index of guides
 │   ├── COMMANDS.md                # Execution CLI command cheat sheet
@@ -743,6 +746,92 @@ test.describe('Claims Management Smoke Test Suite', () => {
     Logger.info('Claims search smoke test executed successfully');
   });
 
+});
+```
+</details>
+
+<details>
+<summary><b>2. Regression Test List (tests/regression/regression-list.json)</b></summary>
+
+Defines a clean, JSON-based array of test file relative paths to execute during regression sweeps. This dynamic list avoids editing runner code or commands when shifting execution coverage scope.
+
+```json
+[
+  "tests/smoke/login-and-basic-claim-flow.smoke.spec.ts",
+  "tests/regression-cases/recent-tickets/recent-tickets.regression.spec.ts"
+]
+```
+</details>
+
+<details>
+<summary><b>3. Regression Runner Orchestrator (tests/regression/regression-runner.ts)</b></summary>
+
+A single orchestrator script located in the `tests/regression/` directory. It reads the test list mapping array from `regression-list.json`, resolves paths to ensure existence in the workspace, and dynamically spawns a child process invoking Playwright natively for those target scripts, passing through any extra CLI flags (e.g. `--headed`, `--project=chromium`).
+
+```typescript
+import { spawn } from 'child_process';
+import fs from 'fs';
+import path from 'path';
+
+const listPath = path.join(__dirname, 'regression-list.json');
+
+if (!fs.existsSync(listPath)) {
+  console.error(`[Regression Runner] List file not found at: ${listPath}`);
+  process.exit(1);
+}
+
+let files: string[] = [];
+try {
+  files = JSON.parse(fs.readFileSync(listPath, 'utf8'));
+} catch (e) {
+  console.error(`[Regression Runner] Failed to parse JSON list:`, (e as Error).message);
+  process.exit(1);
+}
+
+if (!Array.isArray(files) || files.length === 0) {
+  console.log('[Regression Runner] No files specified in the regression list. Exiting.');
+  process.exit(0);
+}
+
+const resolvedFiles: string[] = [];
+for (const file of files) {
+  let resolved = path.resolve(process.cwd(), file);
+  if (!fs.existsSync(resolved)) {
+    resolved = path.resolve(__dirname, file);
+  }
+  
+  if (fs.existsSync(resolved)) {
+    resolvedFiles.push(path.relative(process.cwd(), resolved));
+  } else {
+    console.warn(`[Regression Runner] WARNING: Test file not found in workspace: "${file}"`);
+  }
+}
+
+if (resolvedFiles.length === 0) {
+  console.error('[Regression Runner] ERROR: None of the specified test files could be found. Exiting.');
+  process.exit(1);
+}
+
+console.log(`\\n======================================================================`);
+console.log(`[REGRESSION RUNNER] Orchestrating execution for ${resolvedFiles.length} file(s):`);
+resolvedFiles.forEach(f => console.log(`  - ${f}`));
+console.log(`======================================================================\\n`);
+
+const extraArgs = process.argv.slice(2);
+const args = ['playwright', 'test', ...resolvedFiles, ...extraArgs];
+const activeEnv = process.env.ENV || 'QA';
+
+const child = spawn('npx', args, {
+  stdio: 'inherit',
+  shell: true,
+  env: {
+    ...process.env,
+    ENV: activeEnv
+  }
+});
+
+child.on('close', (code) => {
+  process.exit(code ?? 0);
 });
 ```
 </details>

@@ -28,7 +28,7 @@ export default defineConfig({
     trace: 'retain-on-failure',
     screenshot: 'only-on-failure',
     video: 'retain-on-failure',
-    headless: process.env.HEADLESS !== 'false',
+    headless: process.env.HEADLESS ? process.env.HEADLESS === 'true' : undefined,
     actionTimeout: 15000,
     navigationTimeout: 30000,
     ignoreHTTPSErrors: envConfig.ignoreHTTPSErrors ?? true
